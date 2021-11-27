@@ -4,16 +4,17 @@ const mongoose  = require('mongoose')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('passport')
+const dotenv = require('dotenv')
 
 
 const app = express()
+dotenv.config()
 
 // Passport config
 require('./config/passport')(passport)
 
-// DB Cinfig
-const db = require('./config/keys').MongoURI
-const { Passport } = require('passport')
+// DB Config
+const db = process.env.MongoURI
 
 // Connect to Mongo
 mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -53,7 +54,7 @@ app.use((req, res, next) => {
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT 
 
 app.listen(PORT, () => {
   console.log('Server is up on port ' + PORT + '.')
