@@ -1,22 +1,26 @@
 const mongoose = require('mongoose');
+const validator = require("validator");
 
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+  },
+  googleId: {
+    type: String,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
   password: {
     type: String,
-    required: true
+    // required: true
   },
   date: {
     type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+  },
 });
 
 const User = mongoose.model('User', UserSchema);

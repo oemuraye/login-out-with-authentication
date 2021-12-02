@@ -26,14 +26,19 @@ router.post('/register', (req, res) => {
         errors.push({ msg: 'Please fill in all fields' })
     }
 
+    // Check pass length
+    if (password.length < 6) {
+        errors.push({ msg: 'Password should be at least 6 character' })
+    }
+
+    // Check password match
+    if (password.toLowerCase().includes('password')) {
+        errors.push({ msg: 'Password should not contain "password"' });
+    }
+
     // Check password match
     if (password !== password2) {
         errors.push({ msg: 'Password do not match' })
-    }
-
-    // Check pass length
-    if (password.lenght < 6) {
-        errors.push({ msg: 'Password should be at least 6 character' })
     }
 
     if (errors.length > 0) {

@@ -1,6 +1,7 @@
 const express = require('express')
 const expressLayouts = require('express-ejs-layouts')
 const mongoose  = require('mongoose')
+const morgan = require('morgan')
 const flash = require('connect-flash')
 const session = require('express-session')
 const passport = require('passport')
@@ -12,6 +13,7 @@ dotenv.config()
 
 // Passport config
 require('./config/passport')(passport)
+require('./config/googlePassport')(passport)
 
 // DB Config
 const db = process.env.MongoURI
@@ -35,6 +37,9 @@ app.use(session({
   saveUninitialized: true
 }))
 
+// Logging
+app.use(morgan('dev'))
+
 // Passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
@@ -53,6 +58,7 @@ app.use((req, res, next) => {
 //Routes
 app.use('/', require('./routes/index'))
 app.use('/users', require('./routes/users'))
+app.use('/auth', require('./routes/auth'))
 
 const PORT = process.env.PORT 
 
