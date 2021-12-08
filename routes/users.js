@@ -2,6 +2,10 @@ const express = require('express')
 const router = new express.Router()
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+const jwt = require('jsonwebtoken')
+
+// JWT secret
+const secret = process.env.secret
 
 // User model
 const User = require('../models/User')
@@ -91,11 +95,17 @@ router.post('/register', (req, res) => {
 
 // Login handle
 router.post('/login', (req, res, next) => {
+    const { email } = req.body
+
+    
     passport.authenticate('local', {
         successRedirect: '/dashboard',
         failureRedirect: '/users/login',
         failureFlash: true
     })(req, res, next)
+    jwt.sign({ email }, secret, { expiresIn: "60s" })
+
+        // res.status(200).json({ email, token })
 })
 
 // Logout Handle 
